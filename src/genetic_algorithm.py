@@ -197,3 +197,73 @@ class GeneticAlgorithm:
         car = Car(start_x, start_y, start_angle)
         car.neural_network.set_weights_flat(weights)
         return car
+    
+    def get_statistics_summary(self) -> dict:
+        if not self.generation_stats:
+            return {
+                'total_generations': 0,
+                'best_fitness_ever': 0,
+                'final_best_fitness': 0,
+                'average_improvement': 0,
+                'convergence_generation': -1
+            }
+        
+        best_fitness_ever = max(self.best_fitness_history) if self.best_fitness_history else 0
+        final_best_fitness = self.best_fitness_history[-1] if self.best_fitness_history else 0
+        
+        # Calcula melhoria média por geração
+        if len(self.best_fitness_history) > 1:
+            total_improvement = self.best_fitness_history[-1] - self.best_fitness_history[0]
+            average_improvement = total_improvement / len(self.best_fitness_history)
+        else:
+            average_improvement = 0
+        
+        # Detecta convergência (quando a melhoria fica < 1% por 5 gerações consecutivas)
+        convergence_gen = -1
+        if len(self.best_fitness_history) >= 5:
+            for i in range(4, len(self.best_fitness_history)):
+                recent_improvement = abs(self.best_fitness_history[i] - self.best_fitness_history[i-5])
+                if self.best_fitness_history[i-5] > 0:
+                    improvement_pct = (recent_improvement / self.best_fitness_history[i-5]) * 100
+                    if improvement_pct < 1.0 and convergence_gen == -1:
+                        convergence_gen = i
+                        break
+        
+        return {
+            'total_generations': self.generation,
+            'best_fitness_ever': best_fitness_ever,
+            'final_best_fitness': final_best_fitness,
+            'average_improvement': average_improvement,
+            'convergence_generation': convergence_gen
+        }
+    
+    def save_statistics_to_csv(self, filename: str = "evolution_statistics.csv"):
+        import csv
+        
+        if not self.generation_stats:
+            print("Nenhuma estatística para salvar.")
+            return
+        
+        try:
+            with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+                # Define os campos do CSV
+                fieldnames = [
+                    'generation', 
+                    'best_fitness', 
+                    'average_fitness', 
+                    'worst_fitness',
+                    'std_fitness',
+                    'cars_alive',
+                    'generation_time'
+                ]
+                
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                
+                # Escreve as estatísticas de cada geração
+                for stat in self.generation_stats:
+                    writer.writerow(stat)
+            
+            print(f"📊 Estatísticas salvas em {filename}")
+        except Exception as e:
+            print(f"Erro ao salvar CSV: {e}")

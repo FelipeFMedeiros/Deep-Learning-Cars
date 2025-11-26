@@ -281,6 +281,9 @@ class CarSimulation:
         if convergence_gen > 0:
             print(f"A convergência começou na geração: {convergence_gen}")
         
+        # Salva estatísticas em CSV
+        self.genetic_algorithm.save_statistics_to_csv("evolution_statistics.csv")
+        
         if self.cars:
             final_filename = "best_network_final.npy"
             self.genetic_algorithm.save_best_network(self.cars, final_filename)
