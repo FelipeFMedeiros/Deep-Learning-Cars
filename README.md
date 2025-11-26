@@ -1,6 +1,7 @@
 # AI Cars - Genetic Algorithm Evolution Simulation
 
 Este projeto implementa uma simulação de carros autônomos que aprendem a navegar através de diferentes percursos usando algoritmos genéticos e redes neurais.
+> **Inspiração**: Este projeto foi inspirado em [Applying_EANNs](https://github.com/ArztSamuel/Applying_EANNs) por ArztSamuel.
 
 ![Simulação de Carros Autônomos](/assets/screenshot-1.png)
 
