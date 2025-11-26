@@ -2,7 +2,7 @@
 
 Este projeto implementa uma simulação de carros autônomos que aprendem a navegar através de diferentes percursos usando algoritmos genéticos e redes neurais.
 
-![Simulação de Carros Autônomos](screenshot-1.png)
+![Simulação de Carros Autônomos](/assets/screenshot-1.png)
 
 ## Visão Geral
 
@@ -102,7 +102,7 @@ Arquitetura:
 
 ### Interpretação da Visualização da Rede Neural
 
-![Visualização da Rede Neural](screenshot-2.png)
+![Visualização da Rede Neural](/assets/screenshot-2.png)
 
 A visualização em tempo real mostra como a rede neural "pensa" durante a simulação:
 
